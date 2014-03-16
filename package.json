@@ -1,0 +1,33 @@
+{
+  "name": "cha-target",
+  "version": "0.1.1",
+  "description": "Target extension for cha.",
+  "main": "lib/target.js",
+  "scripts": {
+    "dev": "node ./test/target dev",
+    "test": "node ./test/target test",
+    "dist": "node ./test/target dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chajs/cha-target.git"
+  },
+  "keywords": [
+    "cha",
+    "extension",
+    "target"
+  ],
+  "author": "yuanyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chajs/cha-target/issues"
+  },
+  "homepage": "https://github.com/chajs/cha-target",
+  "dependencies": {
+    "es6-promise": "^0.1.1",
+    "nopt": "^2.2.0"
+  },
+  "devDependencies": {
+    "cha": "^0.1.1"
+  }
+}
