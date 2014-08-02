@@ -2,29 +2,41 @@ cha-target
 ==========
 > Target extension for cha.
 
-## How to setting targets?
+## Install
 
+Install target extension for cha:
+```sh
+npm install cha-target --save-dev
+```
+
+## Usage
+
+Once the extension has been installed, it should required inside your scripts with this line of JavaScript:
+```js
+cha.target = require('cha-target')
+```
+
+Example script:
 ```js
 var cha = require('cha')
-var tasks = require('./tasks')
 
 // Require target extension.
 cha.target = require('cha-target')
 
-cha.in('read',     tasks.read)
-    .in('glob',    tasks.glob)
-    .in('cat',     tasks.cat)
-    .in('coffee',  tasks.coffee)
-    .in('write',   tasks.write)
-    .in('uglifyjs',tasks.uglifyjs)
-
+// Register tasks that should chaining.
+cha.in('reader',    require('task-reader'))
+    .in('coffee',   require('task-coffee'))
+    .in('glob',     require('task-glob'))
+    .in('combine',  require('task-combine'))
+    .in('writer',   require('task-writer'))
+    .in('uglifyjs', require('task-uglifyjs'))
 
 function input(source){
     source
         .coffee()
-        .cat()
+        .combine()
         .uglifyjs()
-        .write('./out/foobar3.js')
+        .writer('./out/foobar3.js')
 }
 
 // Setting a "dev" target.
@@ -39,7 +51,7 @@ cha.target('dev', function(){
         immediately: true
     }, function(filepath, event, watched){
 
-        input(cha().read(watched))
+        input(cha().reader(watched))
 
     })
 })
@@ -59,13 +71,19 @@ cha.target('all', ['dev', 'dist'])
 
 // Running target.
 // cha.target.run('all')
-
 ```
 
 Add a arbitrary command to the `scripts` object:
+
 ```json
-"dev": "node ./test/target dev",
-"dist": "node ./test/target dist",
+{
+  "name": "cha-example",
+  "scripts": {
+    "dev": "node ./test/target dev",
+    "dist": "node ./test/target dist",
+    "all": "node ./test/target all",
+  }
+}
 ```
 
 To run the command we prepend our script name with run:
